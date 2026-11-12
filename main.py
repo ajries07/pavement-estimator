@@ -6,7 +6,7 @@ from bakery import assert_equal
 hide_debug_information()
 set_website_title('PavePlanner')
 set_website_framed(False)
-#set_site_information(author='Amanda Ries',description'PavePlanner estimates the price to pave a certain area based on user input.',sources['CS1 Final Project 0 COPY.docx','CS1 Final Project 1_ Design.docx'], links, server=None)
+set_site_information(author='Amanda Ries',description='PavePlanner estimates the price to pave a certain area based on user input.',sources=['CS1 Final Project 0 COPY.docx','CS1 Final Project 1_ Design.docx'], links='https://ajries07.github.io/pavement-estimator/', server=None)
 
 @dataclass
 class PavingProject:
