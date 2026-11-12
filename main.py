@@ -23,7 +23,19 @@ class State:
     current_estimate: PavingProject | None = None
     selected_index: int = 0
     
-def calculate_cost(length, width, price_per_sqft):
+def calculate_cost(length:float, width:float, price_per_sqft:float)->float:
+    '''
+    This function calculates the cost of paving a given area. 
+    
+    Args:
+        length(float): the length of the area.
+        width(float): the width of the area.
+        price_per_sqft (float): the estimated price it would cost to pave 1 sqft.  
+
+    Returns:
+        float: The estimated price 
+
+    '''
     if length <= 0 or width <= 0 or price_per_sqft < 0:
         return None
 
@@ -36,6 +48,16 @@ assert_equal(calculate_cost(20, -5, 5), None)
 
 @route
 def index(state: State) -> Page:
+    '''
+    This calls the start page. 
+    
+    Args:
+        state(State)   
+
+    Returns:
+        Page: The start page of my website with a 'Create Estimate' button and a 'View Estimate' button. 
+
+    '''
     return Page(state, [
         Header("PavePlanner"),
         Text("Estimate the cost of your paving project."),
@@ -46,6 +68,17 @@ def index(state: State) -> Page:
 
 @route
 def new_estimate_page(state: State) -> Page:
+    '''
+    This calls the start page. 
+    
+    Args:
+        state(State)   
+
+    Returns:
+        Page: The new estimate page of my website gets user input for the length, width, and price per sqft,
+        than has a 'Calculate Estimate' button to view the estimated price, and a 'Home' button to return to the home page. 
+
+    '''
     return Page(state, [
         Header("Create a New Estimate"),
         "Project name:",
@@ -69,7 +102,22 @@ assert_equal(result is not None, True)
 def calculate_estimate(state: State, project_name: str,
                        length: float, width: float,
                        price_per_sqft: float) -> Page:
+    '''
+    
+    This page calculates the cost of paving a given area. 
+    
+    Args:
+        state(State)
+        project_name(str): this is the name of the current project. 
+        length(float): the length of the area.
+        width(float): the width of the area.
+        price_per_sqft (float): the estimated price it would cost to pave 1 sqft.  
 
+    Returns:
+        Page: The calculate estimate page of my website gets user input for the project name, length, width, and price per sqft,
+        and shows the user the estimated cost. 
+
+    '''
     state.project_name = project_name
     state.length = str(length)
     state.width = str(width)
@@ -112,8 +160,19 @@ assert_equal(state.estimates[0].estimated_cost, 1000)
 
 @route
 def estimates_page(state: State) -> Page:
-    content = [Header("Your Estimates")]
+    '''
+    
+    This page shows the calculated estimates.  
+    
+    Args:
+        state(State) 
 
+    Returns:
+        Page: The estimates page of my website shows the calculated estimates from the user input. This page gives the user the option to view estimate details,
+        compare estimates, delete an estimate, reset all estimates, or return home. 
+    
+    '''
+    content = [Header("Your Estimates")]
     if len(state.estimates) == 0:
         content.append("You have not created any estimates yet.")
     else:
@@ -146,6 +205,19 @@ assert_equal(result is not None, True)
 
 @route
 def estimate_details_page(state: State, selected_index: int) -> Page:
+    '''
+    
+    This page shows the details of a calculated estimate. 
+    
+    Args:
+        state(State)
+        selected_index(int): the project the user selects, integer based on when the entered the project (ex: first entry = 0)
+
+    Returns:
+        Page: The estimate details page of my website shows the length, width, and price the user input for a given project.
+        The user can then return to the estimates page. 
+    
+    '''
     if selected_index < 0 or selected_index >= len(state.estimates):
         return Page(state, [
             Header("Estimate Not Found"),
@@ -177,6 +249,17 @@ assert_equal(state.current_estimate.name, "Driveway")
 
 @route
 def compare_estimates_page(state: State) -> Page:
+    '''
+    
+    This page compares two or more estimates that have been created. 
+    
+    Args:
+        state(State)
+        
+    Returns:
+        Page: The compare estimates page of my website compares the selected estimates the user wishes to compare. This page shows the user the
+        estimates side by side, and gives them the option to return to the estimates page. 
+    '''
     content = [Header("Compare Estimates")]
 
     if len(state.estimates) < 2:
@@ -222,6 +305,18 @@ assert_equal(state.estimates[1].estimated_cost, 1800)
 
 @route
 def delete_estimate(state: State, selected_index: int) -> Page:
+    '''
+
+    This page deletes a selected estimate. 
+    
+    Args:
+        state(State)
+        selected_index(int): the project the user selects, integer based on when the entered the project (ex: first entry = 0)
+
+    Returns:
+        Page: The delete estimate page of my website deletes the estimate the user has selected. The user can then return to the estimates page with the remaining estimates. 
+    
+    '''
     if selected_index < 0 or selected_index >= len(state.estimates):
         return Page(state, [
             "That estimate number does not exist.",
@@ -248,6 +343,17 @@ assert_equal(len(state.estimates), 0)
 
 @route
 def reset_estimates(state: State) -> Page:
+    '''
+
+    This page deletes all estimates. 
+    
+    Args:
+        state(State)
+
+
+    Returns:
+        Page: The reset estimates page of my website deletes all estimates the user has entered. The user can then return to the home page. 
+    '''
     state.estimates.clear()
     state.current_estimate = None
 
