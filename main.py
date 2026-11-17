@@ -385,4 +385,6 @@ result = reset_estimates(state)
 assert_equal(len(state.estimates), 0)
 assert_equal(state.current_estimate, None)
 
+set_website_style('almond')
+
 start_server(State())
